@@ -1,2 +1,2 @@
 # HushBERT
-This library includes noise reduction tools for BERTopic model
+HushBERT is a Python package exploring options and tools for noise reduction of BERTopic models.
