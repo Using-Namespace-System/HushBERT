@@ -1,4 +1,4 @@
-# HushBERT/__init__.py
+# hushbert/__init__.py
 
 """HushBERT - A Python package exploring options and tools for noise reduction of BERTopic models."""
 
