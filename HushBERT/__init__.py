@@ -7,4 +7,4 @@ __author__ = "Brian Recktenwall-Calvet"
 __license__ = "MIT License"
 
 
-from HushBERT.core.model.document_info import get_document_info
+from hushbert.core.model.document_info import get_document_info
