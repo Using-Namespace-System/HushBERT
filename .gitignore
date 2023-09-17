@@ -3,3 +3,8 @@
 .spyproject/config/backups/encoding.ini.bak
 .spyproject/config/backups/vcs.ini.bak
 .spyproject/config/backups/workspace.ini.bak
+hushbert.egg-info/top_level.txt
+hushbert.egg-info/SOURCES.txt
+hushbert.egg-info/requires.txt
+hushbert.egg-info/PKG-INFO
+hushbert.egg-info/dependency_links.txt
