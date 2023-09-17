@@ -8,3 +8,7 @@ hushbert.egg-info/SOURCES.txt
 hushbert.egg-info/requires.txt
 hushbert.egg-info/PKG-INFO
 hushbert.egg-info/dependency_links.txt
+build/lib/hushbert/core/model/document_info.py
+build/lib/hushbert/core/model/__init__.py
+build/lib/hushbert/core/__init__.py
+build/lib/hushbert/__init__.py
