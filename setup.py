@@ -1,11 +1,11 @@
 # setup.py
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
-    name="HushBERT",
+    name="hushbert",
     version="0.1.0",
-    packages=find_packages(),
+    packages=['hushbert','hushbert.core.model'],
     install_requires=[
         "pandas",
         "bertopic"

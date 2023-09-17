@@ -2,8 +2,8 @@
 
 """Module for recursivley reclassifying noise."""
 
-import pandas as pd
-import bertopic as BERTopic
+import pandas
+import bertopic
   
 
 def get_document_info(model, docs):
@@ -22,11 +22,15 @@ def get_document_info(model, docs):
         Dataframe with document info and information on recursive layers of classifications.
 
     """
+    limit = 4
+    topics, probs = model.fit_transform(docs)
     document_info = model.get_document_info(docs)
-    return get_document_info_recurs(model, docs, document_info, limit=3)
+    document_info['joining_index'] = document_info.index
+    document_info['recursion_layer'] = limit
+    return get_document_info_recurs(model, document_info, limit=limit)
 
 
-def get_document_info_recurs(model, document_info, limit, topic=-1):
+def get_document_info_recurs(model, document_info, limit=0, topic=-1):
     """
     
     Parameters
@@ -35,8 +39,8 @@ def get_document_info_recurs(model, document_info, limit, topic=-1):
         Topic model.
     document_info : DataFrame
         Documents and classification information.
-    limit : Int
-        Depth of recursion.
+    limit : Int, optional
+        Depth of recursion. The default is 0.
     topic : Int, optional
         Topic to recursivley reclassify. The default is -1.
 
@@ -46,26 +50,16 @@ def get_document_info_recurs(model, document_info, limit, topic=-1):
         Dataframe with document info and information on recursive layers of classifications.
 
     """
-    document_info['recursion_layer'] = limit + 1
-    document_info['joining_index'] = document_info.index
     topic_document_info = document_info.loc[document_info.Topic==topic]
+    topic_document_info.recursion_layer = limit - 1
     model.fit_transform(topic_document_info.Document.to_list())
-    model.get_document_info(topic_document_info.Document.to_list(), df=topic_document_info)
-    if(limit>=0):
-        limit = limit - 1
-        topic_document_info_recurs = get_document_info_recurs(model, topic_document_info, limit)
-        topic_document_info_recurs['primary_joining_index'] = topic_document_info_recurs['joining_index']
-        topic_document_info['primary_joining_index'] = topic_document_info['joining_index']
-        topic_document_info_recurs.set_index('primary_joining_index')
-        topic_document_info.set_index('primary_joining_index')
-        topic_document_info.loc[topic_document_info.Topic==topic] = topic_document_info_recurs
-        return topic_document_info
-    else:
-        topic_document_info['primary_joining_index'] = topic_document_info['joining_index']
-        document_info['primary_joining_index'] = document_info['joining_index']
-        topic_document_info.set_index('primary_joining_index')
-        document_info.set_index('primary_joining_index')
-        document_info.loc[document_info.Topic==topic] = topic_document_info
-        return document_info
+    topic_document_info = model.get_document_info(topic_document_info.Document.to_list(), df=topic_document_info)
+    limit = limit - 1
+    if(limit>=0 and len(topic_document_info.loc[topic_document_info.Topic==topic]) > 250):
+        topic_document_info = get_document_info_recurs(model, topic_document_info, limit=limit)
+    topicdocumentIndex = pandas.Index(topic_document_info.joining_index)
+    topic_document_info.set_index(topicdocumentIndex)
+    document_info.loc[document_info.Topic==topic] = topic_document_info
+    return document_info
 
     
