@@ -1,4 +1,4 @@
-# HushBERT/core/model/document_info.py
+# hushbert/core/model/document_info.py
 
 """Module for recursivley reclassifying noise."""
 
